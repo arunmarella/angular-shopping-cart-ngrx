@@ -1,0 +1,42 @@
+<ng-container *ngIf="(state | async) as s">
+	<!-- <pre>
+    {{ s | json }}
+  </pre> -->
+	<h3>
+		Checkout
+		<button style="float: right;" mat-icon-button [mat-dialog-close]><mat-icon>cancel</mat-icon></button>
+  </h3>
+
+	<div *ngIf="s.cart.length > 0; else elseBlock">
+  <p>
+    Review your items and checkout
+  </p>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Total: {{ s.tot.subTot | currency:'USD':'symbol':'1.2-2' }}</mat-card-title>
+      <mat-card-subtitle>
+      tax: {{ s.tot.tax | currency:'USD':'symbol':'1.2-2' }}
+      <br />
+          at checkout: {{ s.tot.grandTot | currency:'USD':'symbol':'1.2-2' }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-actions style="text-align: right;">
+        <button type="button" mat-button color="accent" (click)="completeOrder()">
+          Complete my order <mat-icon>check</mat-icon>
+        </button>
+      </mat-card-actions>
+  </mat-card>
+  <div *ngFor="let item of s.cart">
+    <p>
+      {{ item.name }}<br />
+      <strong>{{ item.price }}</strong>
+    </p>
+  </div> 
+</div>
+  <ng-template #elseBlock>
+    <h4>Thank you for your fake purchase!</h4>
+     <button type="button" mat-button color="primary" [mat-dialog-close]>
+         Close <mat-icon>cancel</mat-icon>
+        </button>
+  </ng-template>
+</ng-container>

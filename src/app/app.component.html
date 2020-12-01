@@ -1,0 +1,44 @@
+<hello name="{{ name }}"></hello>
+
+<ng-container *ngIf="cartState$ | async as state">
+	<app-cart [state]="state"></app-cart>
+	<mat-card>
+		<mat-card-header>
+			<mat-card-title>Total: {{ state.tot.subTot | currency:'USD':'symbol':'1.2-2' }}</mat-card-title>
+
+			<mat-card-subtitle>
+				tax: {{ state.tot.tax | currency:'USD':'symbol':'1.2-2' }}
+				<br />
+          at checkout: {{ state.tot.grandTot | currency:'USD':'symbol':'1.2-2' }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-actions>
+        <mat-chip-list>
+          <mat-chip *ngFor="let item of state.cart" [removable]="true" (removed)="remove(item)">{{ item.name }}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+      </mat-card-actions>
+    </mat-card>
+  <hr />
+	<mat-card *ngFor="let item of state.store">
+		<mat-card-header>
+			{{ item.name }}
+		</mat-card-header>		
+		<!-- <img mat-card-image [src]="item.image" [alt]="image"> -->
+    <mat-card-subtitle>
+      
+      <ul>
+        <li>{{ item.details }}</li>
+        <li>{{ item.price | currency:'USD':'symbol':'1.2-2' }}</li>
+      </ul>
+    </mat-card-subtitle>
+    <mat-card-actions>
+
+		<button mat-flat-button color="primary" role="button" (click)="addItemToCart(item)">
+      <mat-icon>add_shopping_cart</mat-icon>
+      Add to cart
+    </button>
+    </mat-card-actions>
+  </mat-card>
+</ng-container>
